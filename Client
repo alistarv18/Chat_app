@@ -1,0 +1,172 @@
+package chat_application;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class Client extends JFrame implements ActionListener {
+    JTextField txt1  = new JTextField();//am declarat variabila txt1 pentru a fi accesibila tuturor metodelor din clasa
+    JPanel a1 = new JPanel();
+    Box vertical = Box.createVerticalBox();
+    Client(){
+        setLayout(null); //manager layout
+
+        JPanel p1 = new JPanel();     //butoane, etichete
+        p1.setBackground(Color.DARK_GRAY);
+        p1.setBounds(0,0,450,70);
+        add(p1);
+
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/2.png"));
+        Image i2 = i1.getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT);
+        ImageIcon i3 = new ImageIcon(i2);
+        JLabel back = new JLabel(i1);
+        back.setBounds(5,20, 25, 25);
+        p1.setLayout(null);
+        p1.add(back);
+        back.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.exit(0);
+            }
+        });
+        //set the icon for the exit
+        //se face resize la img ai sa se potriveasca in layout-ul nostru
+        //listener pentru a face utilizabil butonul de iesire
+
+        ImageIcon i4 = new ImageIcon(ClassLoader.getSystemResource("icons/3.png"));
+        Image i5 = i4.getImage().getScaledInstance(50,50,Image.SCALE_DEFAULT);
+        ImageIcon i6 = new ImageIcon(i5);
+        JLabel profile = new JLabel(i6);
+        profile.setBounds(20,10, 90, 50);
+        p1.add(profile);
+        //set the icon for the user
+
+        ImageIcon i7 = new ImageIcon(ClassLoader.getSystemResource("icons/4.png"));
+        Image i8 = i7.getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT);
+        ImageIcon i9 = new ImageIcon(i8);
+        JLabel video = new JLabel(i9);
+        video.setBounds(300,20, 30, 30);
+        p1.add(video);
+        //set the  icon for the video call
+
+        ImageIcon i10 = new ImageIcon(ClassLoader.getSystemResource("icons/5.png"));
+        Image i11 = i10.getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT);
+        ImageIcon i12 = new ImageIcon(i11);
+        JLabel phone = new JLabel(i12);
+        phone.setBounds(350,20, 30, 30);
+        p1.add(phone);
+        //set the icon for the phone logo
+
+        ImageIcon i13 = new ImageIcon(ClassLoader.getSystemResource("icons/6.png"));
+        Image i14 = i13.getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT);
+        ImageIcon i15 = new ImageIcon(i14);
+        JLabel option = new JLabel(i15);
+        option.setBounds(400,20, 30, 30);
+        p1.add(option);
+        //icon for the option button
+
+        JLabel name = new JLabel("Manager");
+        name.setBounds(100,15,100,30);
+        name.setForeground(Color.WHITE);
+        name.setFont(new Font("SAN_SERIF",Font.BOLD,18));
+        p1.add(name);
+        //fixing the name
+
+        JLabel status = new JLabel("Active ");
+        status.setBounds(100,35,100,30);
+        status.setForeground(Color.WHITE);
+        status.setFont(new Font("SAN_SERIF",Font.BOLD,14));
+        p1.add(status);
+        //fixing the status
+
+        //JPanel a1 = new JPanel();
+        a1.setBounds(5,75,440,570);
+        add(a1);
+        //creare panel text
+
+
+        txt1.setBounds(5,655,310,40);
+        txt1.setFont(new Font("SAN_SERIF", Font.PLAIN,16));
+        add(txt1);
+        //setare caseta text
+
+        JButton send = new JButton("Send");
+        send.setBounds(320,655,123,40);
+        send.addActionListener(this);
+        send.setBackground(Color.GREEN);
+        add(send);
+        //button send
+
+        setSize(450,700);
+        setLocation(200,50);
+        setUndecorated(true);
+        getContentPane().setBackground(Color.WHITE);
+
+        setSize(450, 700);
+        setLocation(200,50);
+        getContentPane().setBackground(Color.cyan);
+
+
+        setVisible(true);
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String out = txt1.getText();
+
+        JLabel output = new JLabel(out);
+
+        JPanel p2 = formatLabel(out);
+        p2.add(output);
+
+        a1.setLayout(new BorderLayout());
+        JPanel right = new JPanel(new BorderLayout());
+        right.add(output,BorderLayout.AFTER_LINE_ENDS);
+
+        vertical.add(right);
+        vertical.add(Box.createHorizontalStrut(15));
+
+        a1.add(vertical, BorderLayout.PAGE_START);
+
+        repaint();
+        invalidate();
+        validate();
+
+        //System.out.println(out);
+    }//metoda prin care obtinem textul si il afisam pentru a vedea daca functioneaza codul
+
+    public static  JPanel formatLabel(String out){
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel output = new JLabel("<html><p style=\"width:150px\">" + out + "</p></html>");
+        output.setFont(new Font("Tahoma", Font.PLAIN,16));
+        output.setBackground(new Color(100,100,100));
+        output.setOpaque(true);
+        output.setBorder(new EmptyBorder(15, 15,15,50));
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        JLabel time = new JLabel("12:00");
+        time.setText(sdf.format(cal.getTime()));
+
+        panel.add(time);
+
+        panel.add(output);
+
+        return panel;
+    }
+
+    public static void main(String[] args) {
+        new Client(); //obiect anonim
+
+    }
+
+
+}
